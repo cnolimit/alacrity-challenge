@@ -1,44 +1,49 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Pleo Frontend Challenge
 
-## Available Scripts
+### Brief Description
 
-In the project directory, you can run:
+This project utilises the API found [here](https://github.com/alacrity-law/apollo-test-app)
 
-### `npm start`
+The project consumes the API and provides a frontend client which allows you to
+view and manipulate the data from the API easier. This project will have the following
+functionalities
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Display list of books with thier properties `{title, author, price}`
+- Edit any of the three properties for each book
+- Create a new book, specifying the three properties
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Time to Complete
 
-### `npm test`
+In total ~5 Hours
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Modules
 
-### `npm run build`
+| Module       | Why?                                                                                                                                          |
+| :----------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
+| graphql-tag  | graphql-tag is a utility which helps parses graphql queries allowing you to have an effective way of specify variables to pass into the query |
+| apollo-boost | apollo-boost is a simple zero-config package to help quickly get started with the apollo-client                                               |
+| @material-ui | material-ui is a robost ui framework which provides react components which strictly follow the official material guidelines                   |
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Hardest Area
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+- I had difficulties working out how Apollo works.
+- I found it difficult to work out the best way to handle currency formating onChange
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Proudest Area
 
-### `npm run eject`
+- Working out the best way to structure components and files to improve readbility
+- Determining the best way to isolate components and thier responsibilities
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Getting Started
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+You will need to run the API and the frontend seperately.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+To run the API you will need to clone and run this repo locally: [API](https://github.com/alacrity-law/apollo-test-app)
 
-## Learn More
+To run the frontend clone and `cd` into the project then run the command
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+  yarn start
+```
