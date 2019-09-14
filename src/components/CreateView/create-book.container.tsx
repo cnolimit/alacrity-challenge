@@ -1,5 +1,6 @@
 import React from "react";
-import DialogForm from "../shared/dialog-form";
+import { DialogForm } from "../shared";
+import { formType } from "../../constants/types";
 
 interface ICreateView {
   onClose: any;
@@ -9,8 +10,8 @@ interface ICreateView {
 const CreateView = (props: ICreateView) => {
   return (
     <DialogForm
+      type={formType.CREATE}
       onCancel={props.onClose}
-      onSubmit={props.onClose}
       onClose={props.onClose}
       open={props.open}
       title="Create New Book"

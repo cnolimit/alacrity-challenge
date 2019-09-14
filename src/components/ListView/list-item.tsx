@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
 import EditIcon from "@material-ui/icons/Edit";
+import { euCurrencyFormat } from "../../helpers";
 
 const SCard = styled(Card)({
   margin: "15px 0",
@@ -28,12 +29,14 @@ interface IListItem {
 }
 
 const ListItem = (props: IListItem) => {
+  const price = euCurrencyFormat.format(props.price);
+
   return (
     <SCard>
       <CardContent>
         <Typography variant="h5">{props.title}</Typography>
         <Typography variant="subtitle1">{props.author}</Typography>
-        <Typography variant="subtitle2">€{props.price.toFixed(2)}</Typography>
+        <Typography variant="subtitle2">{price}</Typography>
         <Checkbox
           onChange={e =>
             props.onSelect(props.id, props.price, e.target.checked)

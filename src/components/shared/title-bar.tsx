@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/styles";
 import EuroIcon from "@material-ui/icons/Euro";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import CreateView from "../CreateView/create-book.container";
+import { euCurrencyFormat } from "../../helpers";
 
 interface ITitleBar {
   title: string;
@@ -58,7 +59,7 @@ export default ({ title, amount, itemCount }: ITitleBar) => {
           {amount ? (
             <Typography variant="subtitle1" className={classes.iconText}>
               <EuroIcon className={classes.icon} />
-              {amount}
+              {euCurrencyFormat.format(amount)}
             </Typography>
           ) : null}
           {itemCount ? (
