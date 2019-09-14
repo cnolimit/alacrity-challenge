@@ -1,32 +1,29 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
-import { styled } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import {
-  CardContent,
-  Typography,
-  Checkbox,
-  Fab,
-  Tooltip
-} from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
 import { TitleBar, Loader } from "../shared";
 import { IBook } from "../../constants/types";
 import { GET_BOOKS } from "../../constants/queries";
-
-const SCard = styled(Card)({
-  margin: "15px 0",
-  padding: "0 15px",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center"
-});
+import ListItem from "./list-item";
+import EditView from "../EditView/edit-view.container";
 
 const ListView = () => {
+  const defaultValues = { title: "", author: "", price: 0, bookId: 0 };
   const [prices, addPrice] = useState({});
+  const [editing, setEditing] = useState(false);
+  const [editingBook, setEditingBook] = useState<IBook>(defaultValues);
 
   const handleSelected = (id: number, price: number, status: boolean) => {
     addPrice({ ...prices, [id]: status ? price : 0 });
+  };
+
+  const handleEdit = (book: IBook) => {
+    setEditing(true);
+    setEditingBook(book);
+  };
+
+  const handleEditClose = () => {
+    setEditing(false);
+    setEditingBook(defaultValues);
   };
 
   const getItemCount = () => Object.values(prices).filter(Boolean).length;
@@ -49,25 +46,27 @@ const ListView = () => {
         amount={getTotalPrice()}
         itemCount={getItemCount()}
       />
+      {editing && (
+        <EditView
+          open={editing}
+          onClose={handleEditClose}
+          book={editingBook}
+          title={`Edit - ${editingBook.title}`}
+        />
+      )}
       {loading ? (
         <Loader />
       ) : (
-        data.books.map(({ author, price, bookId, title }: IBook) => (
-          <SCard key={bookId}>
-            <CardContent>
-              <Typography variant="h5">{title}</Typography>
-              <Typography variant="subtitle1">{author}</Typography>
-              <Typography variant="subtitle2">€{price.toFixed(2)}</Typography>
-              <Checkbox
-                onChange={e => handleSelected(bookId, price, e.target.checked)}
-              />
-            </CardContent>
-            <Tooltip title={`Edit ${title}`} aria-label="add">
-              <Fab color="primary">
-                <EditIcon />
-              </Fab>
-            </Tooltip>
-          </SCard>
+        data.books.map((book: IBook & { bookId: number }) => (
+          <ListItem
+            key={`${book.bookId}-${book.author}`}
+            id={book.bookId}
+            author={book.author}
+            price={book.price}
+            title={book.title}
+            onSelect={handleSelected}
+            onEdit={() => handleEdit(book)}
+          />
         ))
       )}
     </React.Fragment>
