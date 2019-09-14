@@ -1,4 +1,4 @@
-# Pleo Frontend Challenge
+# Alacrity Frontend Challenge
 
 ### Brief Description
 
