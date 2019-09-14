@@ -3,17 +3,19 @@ import {
   Dialog,
   DialogTitle,
   TextField,
-  DialogContentText,
   DialogContent,
   Button,
   DialogActions
 } from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
-import { IBook } from "../../constants/types";
+import { IBook, formType } from "../../constants/types";
+import { EDIT_BOOK, CREATE_BOOK } from "../../constants/mutations";
+import { useMutation } from "@apollo/react-hooks";
+import { euCurrencyFormat } from "../../helpers";
 
 interface IDialogForm {
+  type: formType.CREATE | formType.EDIT;
   onClose: any;
-  onSubmit: any;
   onCancel: any;
   open: boolean;
   title: string;
@@ -31,14 +33,36 @@ const DialogForm = (props: IDialogForm) => {
   const [price, setPrice] = useState(
     (props.defaultValues && props.defaultValues.price) || 0
   );
+  const [pricePreview, setPricePreview] = useState(
+    props.defaultValues && euCurrencyFormat.format(props.defaultValues.price)
+  );
   const [author, setAuthor] = useState(
     (props.defaultValues && props.defaultValues.author) || ""
   );
 
+  const [editBook] = useMutation(EDIT_BOOK);
+  const [createBook] = useMutation(CREATE_BOOK);
+
   const handlePriceChange = (e: any) => {
     const shouldUpdate = e.target.value.replace(/[.0-9]/g, "").length;
     if (shouldUpdate) return;
-    setPrice(parseFloat(e.target.value || 0));
+
+    const value = parseFloat(e.target.value || "0").toFixed(2);
+    setPricePreview(euCurrencyFormat.format(e.target.value));
+    setPrice(parseFloat(value));
+  };
+
+  const handleSubit = () => {
+    if (props.type === formType.EDIT && props.defaultValues) {
+      editBook({
+        variables: { bookId: props.defaultValues.bookId, title, price, author }
+      });
+    }
+
+    if (props.type === formType.CREATE) {
+      createBook({ variables: { title, price, author } });
+    }
+    props.onClose();
   };
 
   const isValid = !!(price > 0 && title.length && author.length);
@@ -59,6 +83,7 @@ const DialogForm = (props: IDialogForm) => {
           label="Price"
           margin="normal"
           value={price}
+          helperText={pricePreview}
           onChange={e => handlePriceChange(e)}
         />
         <STextField
@@ -73,7 +98,7 @@ const DialogForm = (props: IDialogForm) => {
         <Button onClick={props.onCancel} color="secondary">
           Cancel
         </Button>
-        <Button disabled={!isValid} onClick={props.onSubmit}>
+        <Button disabled={!isValid} onClick={handleSubit}>
           Submit
         </Button>
       </DialogActions>

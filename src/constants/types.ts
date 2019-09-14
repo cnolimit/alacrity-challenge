@@ -4,3 +4,8 @@ export interface IBook {
   author: string;
   price: number;
 }
+
+export enum formType {
+  "CREATE" = "CREATE",
+  "EDIT" = "EDIT"
+}
